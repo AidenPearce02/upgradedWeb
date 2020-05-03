@@ -125,22 +125,11 @@ function createHTML4Welcome(targetElm) {
     });
     promise.then(() => {
         let hero = document.getElementById("hero");
-        let anthem = document.getElementById("anthem");
         let audio = document.getElementById("mad_scientist");
-        let anthem_ukraine = document.getElementById("anthem_ukraine");
         if (hero) {
             hero.addEventListener("click", () => {
                 audio.play();
                 audio.volume = 0.2;
-            });
-        }
-        if(anthem) {
-            anthem.addEventListener("mouseover", () => {
-                anthem_ukraine.muted = false;
-            });
-            anthem.addEventListener("mouseout", () => {
-                anthem_ukraine.muted = true;
-                anthem_ukraine.currentTime = 0;
             });
         }
         return Promise.resolve();
