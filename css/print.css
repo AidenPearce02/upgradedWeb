@@ -1,0 +1,171 @@
+html{
+    font-family: "Times New Roman", serif;
+    font-size: 14pt;
+}
+
+html,
+body{
+    height: 100%;
+    width: 100%;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+}
+
+.header, .links, a, .container, .opinion, .icons, .mail{
+    display: none;
+}
+
+
+.article{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.article section{
+    width: 100%;
+}
+
+.article section p{
+    text-indent: 1.5em;
+    text-align: justify;
+}
+
+.article section ul{
+    list-style: none;
+}
+
+.article picture{
+    padding: 1rem;
+}
+
+.article .information{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.inline{
+    display: inline-flex;
+}
+
+h1 {
+    border-bottom: 3px solid;
+    font-size: 70px;
+    text-align: center;
+    padding-bottom: 5px;
+}
+
+footer{
+    display: flex;
+    flex-direction: column;
+    margin: auto 0.5rem 0.5rem;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+th,td{
+    padding: 0.75rem;
+    text-align: center;
+}
+
+table,
+td,
+th {
+    border: 0.1em solid black;
+}
+
+.title{
+    font-style: italic;
+}
+
+.hint{
+    display: inline-block;
+    font-size: 0.7rem;
+    vertical-align: bottom;
+}
+.name {
+    padding-top: 2em;
+    width: 20%;
+}
+
+.name img{
+    width: 2em;
+}
+
+.poster img{
+    min-width: 5em;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    width: 30%;
+}
+
+.genre{
+    font-style: italic;
+    width: 40%;
+}
+.rating{
+    font-style: italic;
+    width: 10%;
+}
+
+/*.about_me {
+    padding: 15px;
+}
+
+.snowman {
+    padding-top: 30px;
+}
+
+table {
+    width: 40%;
+    margin: 0 auto;
+}
+
+table th, td {
+    border: 3px solid;
+    text-align: center;
+}
+
+table td {
+    padding: 0 5% 0 5%;
+}
+
+.main_about {
+    padding: 65px 0 70px 0;
+}
+
+.about_right {
+    margin-left: 50px;
+    font-size: 17px;
+}
+
+.about_left {
+    text-align: center;
+    padding-top: 20px;
+}
+
+.about_right h2 {
+    display: inline-block;
+    border-bottom: 3px solid;
+}
+
+.about_right ul {
+    margin-left: 50px;
+}
+
+.about_left img{
+    padding-bottom: 15px;
+    max-width:100%;
+}
+
+.home img {
+    width: 25px;
+}*/

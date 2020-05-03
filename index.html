@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8">
+    <meta name="google-signin-client_id"
+          content="148771864284-q2re4qva5pit90t0av2ib1j8v25m594f.apps.googleusercontent.com">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Title -->
+    <title>My Blog about Anime, Movies, Cartoons and Other Things</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- My css -->
+    <link rel="stylesheet" type="text/css" href="css/main.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="css/print.css" media="print">
+</head>
+<body class="bg">
+<header class="layout">
+    <h1>My Blog about Anime, Movies, Cartoons and Other Things</h1>
+    <nav class="navbar navbar-expand-md navbar-light mx-auto">
+        <button class="navbar-toggler mx-auto" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse mx-auto" id="navbarSupportedContent">
+            <ul class="navbar-nav mx-auto text-center">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#welcome">Welcome!</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#articles/0">Articles</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#artInsert">Add Article</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#opinions">Visitor Opinions</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#addOpinion">Add Opinion</a>
+                </li>
+                <li class="nav-item">
+                    <div id="googleSignIn" class="nav-link">
+                        <div class="hiddenElm" id="SignInButton"></div>
+                        <div class="hiddenElm" id="SignedIn">
+                            <form onsubmit="signOut()">
+                                <button type="submit" class="btn">
+                                    <img id="userImage" src="" title="Press on image to sign out" alt="Sign out"/>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<main id="router-view">
+
+</main>
+<footer class="layout">
+    <p class="desktop">What do you think about this web-site? Send me an e-mail<span class="mail"> on <a
+            href="mailto:vitalii.nikolaienko@student.tuke.sk?Subject=My%20thoughts%20about%20web%20-%20page">mail</a></span>.<br/>
+        I'll read with pleasure</p>
+    <p>2020 &copy; Created by Vitalii Nikolaienko for subject "Web technologies"</p>
+</footer>
+<script id="template-welcome" type="text/template">
+    <article id="welcome">
+        <h2>Welcome!</h2>
+        <p>
+            Welcome to my page. My name is <span id="hero" title="Click on me :)"><b>Vitalii Nikolaienko</b></span>. I'm
+            <span id="anthem"><i>Ukrainian</i></span> and <i>2nd year student</i>
+            in <b>Technical University of Košice</b>.
+            I love to watch <b>anime</b>, <b>movies</b>, <b>cartoons</b> and would like to tell you something about my
+            most favourite ones.
+        </p>
+        <audio id="mad_scientist" src="audio/mad_scientist.mp3"></audio>
+        <audio id="anthem_ukraine" src="audio/anthem_ukraine.mp3" muted autoplay loop></audio>
+    </article>
+</script>
+<script id="template-articles" type="text/template">
+    <article id="articles">
+        <h2>Articles</h2>
+        {{#isOperation}}
+        <div class="alert alert-{{operationStyle}} my-alert" role="alert">
+            <h3>{{operationMessage}}</h3>
+        </div>
+        {{/isOperation}}
+        {{#.}}
+        <article class="articles">
+            <h3 class="title"><a href="{{detailLink}}">{{title}}</a></h3>
+            <div class="content">{{{content}}}</div>
+
+            <div class="author">
+                by {{author}}
+            </div>
+        </article>
+        {{/.}}
+        {{^.}}
+        <section class="no-opinions">
+            <h3>Sorry, no articles found.</h3>
+        </section>
+        {{/.}}
+        <div class="controls">
+            <div>
+                {{#prev}}
+                <a class="btn btn-info" href="#articles/{{prev}}">Previous page</a>
+                {{/prev}}
+            </div>
+            <div class="next">
+                {{#next}}
+                <a class="btn btn-info" href="#articles/{{next}}">Next page</a>
+                {{/next}}
+            </div>
+        </div>
+    </article>
+</script>
+<script id="template-articles-error" type="text/template">
+    <article>
+        <h2>Articles acquisition failed</h2>
+        <p>
+            {{errMessage}}
+        </p>
+    </article>
+</script>
+<script id="template-opinions" type="text/template">
+    <article id="artOpinions">
+        <div id="header_opinions">
+            <h2 class="text-center">Visitor Opinions</h2>
+            <button type="button" class="btn btn-primary btn-sm reset"
+                    title="Press on button to remove old opinions"
+                    id="clearOpinions" onclick="removeOpinions()">Reset
+            </button>
+        </div>
+        {{#isOperation}}
+        <div class="alert alert-{{operationStyle}} my-alert" role="alert">
+            <h3>{{operationMessage}}</h3>
+        </div>
+        {{/isOperation}}
+        <div id="opinions">
+            {{#.}}
+            <section class="opinion">
+                <div class="profile">
+                    <img src={{srcImage}} alt="pictureProfile">
+                    <h5 class="profile_name">{{name}} </h5>
+                    <p class="profile_email">{{email}}</p>
+                    <p>What I usually prefer to watch:<br/>{{preferToWatch}}</p>
+                    <p>{{willReturnMessage}}</p>
+                </div>
+                <div class="comment">
+                    <h5>Comment:</h5>
+                    <p class="comment_comment">{{comment}}</p>
+                    <p class="comment_date">{{createdDate}}</p>
+                </div>
+            </section>
+            {{/.}}
+        </div>
+        {{^.}}
+        <section class="no-opinions">
+            <h3>Sorry, no opinions found.</h3>
+        </section>
+        {{/.}}
+    </article>
+</script>
+<script id="template-addOpinion" type="text/template">
+    <article>
+        <h2>Add Opinion</h2>
+        <p>Please, use the form below to state your opinion about this page.</p>
+        <form id="opinionForm" onsubmit="return processOpnFrmData(event)">
+            <div class="form-group row">
+                <label for="name" class="col-sm-2 col-form-label">Your name:</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" value="{{author}}" id="name"
+                           placeholder="Enter your name here" required>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="email" class="col-sm-2 col-form-label">Your email:</label>
+                <div class="col-sm-5">
+                    <input type="email" class="form-control" value="{{email}}" id="email"
+                           placeholder="Enter your email here" required>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="pictureProfile" class="col-sm-2 col-form-label">Profile picture:</label>
+                <div class="col-sm-5">
+                    <input type="url" class="form-control" id="pictureProfile"
+                           placeholder="Enter URL of profile picture">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-sm-2 pt-0">What do you prefer to watch?</label>
+                <div class="col-sm-5">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="preferToWatch" id="animeC" value="Anime"
+                               checked>
+                        <label class="form-check-label" for="animeC">
+                            Anime
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="preferToWatch" id="filmsC" value="Films">
+                        <label class="form-check-label" for="filmsC">
+                            Films
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="preferToWatch" id="cartoonsC"
+                               value="Cartoons">
+                        <label class="form-check-label" for="cartoonsC">
+                            Cartoons
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="keyword">Keyword:</label>
+                <div class="col-sm-5">
+                    <input type="text" list="keywords" class="form-control" aria-describedby="keywordHelp" id="keyword"
+                           placeholder="Enter keyword">
+                    <small id="keywordHelp" class="form-text text-muted">
+                        The keyword, that you think appropriate for our page.<br/>
+                        Choose option from main list to change background of opinion
+                    </small>
+                    <datalist id="keywords">
+                        <option value="Anime">
+                        <option value="Films">
+                        <option value="Cartoons">
+                        <option value="Reviews">
+                    </datalist>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="comment">Your comment:</label>
+                <textarea class="form-control" id="comment" rows="3"
+                          placeholder="Enter your comment here" required></textarea>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-5">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="willReturn">
+                        <label class="form-check-label" for="willReturn">
+                            I will definitely return to this page.
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="text-right">
+                <button type="reset" class="btn btn-secondary">Reset</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+    </article>
+</script>
+<script id="template-article" type="text/template">
+    <article class="article" id="article">
+        {{#isOperationArticle}}
+        <div class="alert alert-{{operationStyle}} my-alert" role="alert">
+            <h3>{{operationMessage}}</h3>
+        </div>
+        {{/isOperationArticle}}
+        <h2>{{title}}</h2>
+        <div class="author">
+            by {{author}}
+        </div>
+        {{#imageLink}}
+        <figure>
+            <img src="{{imageLink}}" alt="Main picture"/>
+        </figure>
+        {{/imageLink}}
+        <div class="content">{{{content}}}</div>
+        <div class="text-right"><i>Created: {{dateCreated}}<span class="desktop">; </span><span class="mobile">
+            <br></span>Updated: {{lastUpdated}}</i></div>
+        <div class="comments">
+            <h2 id="titleComment">Comments</h2>
+            <div id="comments">
+
+            </div>
+            <div class="text-right">
+                <button type="button" class="btn btn-primary"
+                        id="btShowAddCommentForm" onclick="return addComment(event, '{{id}}')">Add comment
+                </button>
+            </div>
+            <form class="hiddenElm" id="commentForm">
+                <div class="form-group row">
+                    <label for="authorComment" class="col-sm-2 col-form-label">Author:</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" name="authorComment" id="authorComment"
+                               title="Comment author, max. length 100 characters." maxlength="100"
+                               placeholder="e.g. Vitalii Nikolaienko">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="contentComment">Comment:</label>
+                    <textarea class="form-control" id="contentComment" rows="2"
+                              placeholder="Enter your comment here" required></textarea>
+                </div>
+                <footer>
+                    <button type="button" class="btn btn-info" onclick="backToComments(event)">Back</button>
+                    <button type="reset" class="btn btn-secondary next">Reset Form</button>
+                    <button type="submit" class="btn btn-primary" id="submitComment"></button>
+                </footer>
+            </form>
+        </div>
+        <div class="keywordsBlock">
+            <b>Keywords:</b>
+            <span class="keywords">{{tags}}</span>
+        </div>
+        <footer>
+            <a href="{{backLink}}" class="btn btn-primary">Back</a>
+            <a href="{{editLink}}" class="btn btn-info next">Edit</a>
+            <a href="{{deleteLink}}" class="btn btn-danger">Delete</a>
+        </footer>
+    </article>
+</script>
+<script id="template-article-form" type="text/template">
+    <article>
+        <h2>{{formTitle}}</h2>
+        <form id="articleForm" onsubmit="return {{formSubmitCall}}">
+            <div class="form-group row">
+                <label for="author" class="col-sm-2 col-form-label">Author:</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" value="{{author}}" name="author" id="author"
+                           title="Article author, max. length 100 characters." maxlength="100"
+                           placeholder="e.g. Vitalii Nikolaienko">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="title" class="col-sm-2 col-form-label">Title:</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" value="{{title}}" name="title" id="title" maxlength="100"
+                           pattern="\S[\S\s]*"
+                           title="Article title, mandatory item, max. length: 100 characters, the first character must not be a space."
+                           placeholder="e.g. My story." required>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="imageLink" class="col-sm-2 col-form-label">Image (url):</label>
+                <div class="col-sm-5">
+                    <div class="input-group">
+                        <input type="url" class="form-control" value="{{imageLink}}" name="imageLink" id="imageLink"
+                               title="Image URL, max. length 100 characters." maxlength="100">
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-primary" id="btShowFileUpload"
+                                    onclick="showFileUpload()">Upload image
+                            </button>
+                        </div>
+                    </div>
+                    <div class="input-group hiddenElm" id="fsetFileUpload">
+                        <div class="custom-file mt-2">
+                            <input type="file" class="custom-file-input" id="flElm" name="file"
+                                   accept="image/jpeg, image/png"/>
+                            <label class="custom-file-label" for="flElm">Choose file</label>
+                        </div>
+                        <div class="mt-2 text-right">
+                            <button type="button" class="btn btn-primary btn-sm" id="btFileUpload"
+                                    onclick="uploadImg('{{urlBase}}')">Send image to server
+                            </button>
+                            <button type="button" class="btn btn-secondary btn-sm" id="btCancelFileUpload"
+                                    onclick="cancelFileUpload()">Cancel uploading
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="content">Article content:</label>
+                <textarea class="form-control" id="content" rows="20" lang="sk"
+                          placeholder="Article content, mandatory item, can be plain text or in HTML." required>{{content}}</textarea>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="tags">Keywords:</label>
+                <div class="col-sm-5">
+                    <input class="form-control" type="text" name="tags" id="tags" value="{{tags}}"
+                           title="Keyword list, comma separated." placeholder="e.g. village, drama"/>
+                </div>
+            </div>
+            <footer>
+                <a href="{{backLink}}" class="btn btn-info">Back</a>
+                <button type="reset" class="btn btn-secondary next">Reset Form</button>
+                <button type="submit" class="btn btn-primary">{{submitBtTitle}}</button>
+            </footer>
+        </form>
+    </article>
+</script>
+<script id="template-comment" type="text/template">
+    {{#isOperationComment}}
+    <div class="alert alert-{{operationStyle}} my-alert" role="alert">
+        <h3>{{operationMessage}}</h3>
+    </div>
+    {{/isOperationComment}}
+    {{#comments}}
+    <div class="comment">
+        <h3>{{author}}</h3>
+        <p class="text">{{text}}</p>
+        <p class="mt-auto mb-0 mr-0 text-right">{{dateCreated}}</p>
+        <footer>
+            <button type="button" class="btn btn-info btn-sm next"
+                    id="btShowEditCommentForm"
+                    onclick="editComment(event, '{{id}}', '{{article.id}}')">Edit
+            </button>
+            <button type="button" class="btn btn-danger btn-sm"
+                    id="btDeleteComment" onclick="deleteComment(event, '{{id}}', '{{article.id}}')">Delete
+            </button>
+        </footer>
+    </div>
+    {{/comments}}
+    <div class="controls">
+        <div>
+            {{#prev}}
+            <a class="btn btn-info" href="#artComment/{{article.id}}/{{prev}}">Previous page</a>
+            {{/prev}}
+        </div>
+        <div class="next">
+            {{#next}}
+            <a class="btn btn-info" href="#artComment/{{article.id}}/{{next}}">Next page</a>
+            {{/next}}
+        </div>
+    </div>
+</script>
+<script id="template-404" type="text/template">
+    <article id="page404">
+        <h3>404 Error</h3>
+        <h4>This page is unknown or does not exist</h4>
+        <h5>Sorry about that, but the page you looking for is not available</h5>
+        <a href="#welcome" class="btn btn-primary">Go to "Welcome" page</a>
+    </article>
+</script>
+
+<script src="js/mustache.min.js"></script>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="js/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+<script src="js/addOpinion.js"></script>
+<script src="js/handleArticleForms.js"></script>
+<script src="js/handleComments.js"></script>
+<script src="js/googleAccount.js"></script>
+<script src="js/removeOpinions.js"></script>
+<script src="js/activeTab.js"></script>
+<script src="https://apis.google.com/js/platform.js?onload=startGSingIn" async defer></script>
+<script type="module" src="js/routerInit.js"></script>
+</body>
+</html>
